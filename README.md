@@ -1,5 +1,7 @@
 https://www.coursera.org/learn/build-a-computer/
 
+https://www.nand2tetris.org/project01
+
 ```
 x and y == y and x // commutative law 
 x and (y and z) == (x and y) and z // associative law 
