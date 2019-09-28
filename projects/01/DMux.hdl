@@ -13,6 +13,8 @@ CHIP DMux {
     IN in, sel;
     OUT a, b;
 
-    PARTS:
-    // Put your code here:
+PARTS:
+    Not(in=sel, out=not.sel);
+    And(a=not.sel, b=in, out=a);
+    And(a=sel, b=in, out=b);
 }
