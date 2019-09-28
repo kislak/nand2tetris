@@ -12,6 +12,6 @@ CHIP Not16 {
     IN in[16];
     OUT out[16];
 
-    PARTS:
-    // Put your code here:
+PARTS:
+    Nand16(a=in[0..15], b=in[0..15], out=out);
 }
