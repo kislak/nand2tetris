@@ -12,6 +12,19 @@ CHIP FullAdder {
     OUT sum,     // Right bit of a + b + c
         carry;   // Left bit of a + b + c
 
-    PARTS:
-    // Put you code here:
+PARTS:
+   HalfAdder(a=b, b=c, sum=sum.b.c, carry=carry.b.c);
+   Not(in=a, out=not.a);
+
+   Not(in=sum.b.c, out=not.sum.b.c);
+   And(a=not.a, b=sum.b.c, out=sum.first);
+   And(a=a, b=not.sum.b.c, out=sum.second);
+   Or(a=sum.first, b=sum.second, out=sum);
+
+   Not(in=carry.b.c, out=not.carry.b.c);
+   And(a=not.a, b=carry.b.c, out=carry.first);
+
+   Or(a=b, b=c, out=b.or.c);
+   And(a=a, b=b.or.c, out=carry.second);
+   Or(a=carry.first, b=carry.second, out=carry);
 }
