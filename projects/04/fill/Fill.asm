@@ -12,3 +12,65 @@
 // the screen should remain fully clear as long as no key is pressed.
 
 // Put your code here.
+
+(black)
+@SCREEN
+D=A
+@addr
+M=D // addr = 16384
+
+(LOOP1)
+@addr
+D=M
+
+@24576
+D=A-D
+@END
+D;JEQ
+
+@addr
+A=M
+M=-1
+
+@addr
+M=M+1
+
+@LOOP1
+0;JMP
+
+(white)
+@SCREEN
+D=A
+@addr
+M=D // addr = 16384
+
+(LOOP2)
+@addr
+D=M
+
+@24576
+D=A-D
+@END
+D;JEQ
+
+@addr
+A=M
+M=0
+
+@addr
+M=M+1
+
+@LOOP2
+0;JMP
+
+(END)
+
+@24576
+D=M
+@white
+D;JEQ
+@black
+D;JNE
+
+@END // program’s end
+0;JMP // infinite loop
