@@ -38,6 +38,20 @@ CHIP CPU {
         addressM[15],    // Address in data memory (of M)
         pc[15];          // address of next instruction
 
-    PARTS:
-    // Put your code here:
+PARTS:
+
+Mux16(a=alu.output, b=instruction[0..15], sel=instruction[15], out=mux.1);
+Register(in=mux.1, load=instruction[4], out=a.register);
+Mux16(a=a.register, b=inM, sel=instruction[13], out=mux.2);
+Register(in=alu.output, load=instruction[5], out=d.register);
+
+ALU(x=d.register, y=mux.2, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=alu.output);
+
+//outM(alu.output
+
+// zr, // 1 if (out == 0), 0 otherwise
+// ng; // 1 if (out < 0),  0 otherwise
+19.00
+
+
 }
