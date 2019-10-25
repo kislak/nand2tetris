@@ -15,9 +15,31 @@
  */
 
 CHIP Computer {
-
     IN reset;
-
     PARTS:
-    // Put your code here:
+
+
+/*
+    CHIP CPU {
+
+        IN  inM[16],         // M value input  (M = contents of RAM[A])
+            instruction[16], // Instruction for execution
+            reset;           // Signals whether to re-start the current
+                             // program (reset==1) or continue executing
+                             // the current program (reset==0).
+
+        OUT outM[16],        // M value output
+            writeM,          // Write to M?
+            addressM[15],    // Address in data memory (of M)
+            pc[15];          // address of next instruction
+
+    CHIP Memory {
+      IN in[16], load, address[16];
+      OUT out[16];
+*/
+
+
+   ROM32K(address=pc, out=rom);
+   CPU(inM=mem.in,  instruction=rom, reset=reset, outM=to.m, writeM=write.m, addressM=address.m, pc=pc);
+   Memory(in=to.m, load=write.m, address[0..14]=address.m, out=mem.in);
 }

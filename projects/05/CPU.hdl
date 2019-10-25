@@ -94,5 +94,5 @@ ALU(x=d.register, y=mux.2,
     Or(a=ld1, b=ld2, out=ldt);
     Or(a=ld3, b=ldt, out=ld);
 
-   PC(in=a.register, load=ld, inc=true, reset=reset, out[0..14]=pc);
+    PC(in=a.register, load=ld, inc=true, reset=reset, out[0..14]=pc);
 }
