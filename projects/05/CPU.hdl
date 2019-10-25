@@ -51,7 +51,7 @@ And(a=instruction[15], b=instruction[12], out=AMSwitch);
 Mux16(a=a.register, b=inM, sel=AMSwitch, out=mux.2);
 
 And(a=instruction[15], b=instruction[4], out=intoD);
-Register(in=alu.output, load=intoD, out=d.register);
+DRegister(in=alu.output, load=intoD, out=d.register);
 
 ALU(x=d.register, y=mux.2,
   zx=instruction[11],
