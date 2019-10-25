@@ -40,18 +40,59 @@ CHIP CPU {
 
 PARTS:
 
-Mux16(a=alu.output, b=instruction[0..15], sel=instruction[15], out=mux.1);
-Register(in=mux.1, load=instruction[4], out=a.register);
-Mux16(a=a.register, b=inM, sel=instruction[13], out=mux.2);
-Register(in=alu.output, load=instruction[5], out=d.register);
+Not(in=instruction[15], out=notOp);
+Mux16(a=alu.output, b=instruction[0..15], sel=notOp, out=mux.1);
 
-ALU(x=d.register, y=mux.2, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=alu.output);
-
-//outM(alu.output
-
-// zr, // 1 if (out == 0), 0 otherwise
-// ng; // 1 if (out < 0),  0 otherwise
-19.00
+Or(a=notOp, b=instruction[5], out=intoA);
+Register(in=mux.1, load=intoA, out=a.register, out[0..14]=addressM);
 
 
+And(a=instruction[15], b=instruction[12], out=AMSwitch);
+Mux16(a=a.register, b=inM, sel=AMSwitch, out=mux.2);
+
+And(a=instruction[15], b=instruction[4], out=intoD);
+Register(in=alu.output, load=intoD, out=d.register);
+
+ALU(x=d.register, y=mux.2,
+  zx=instruction[11],
+  nx=instruction[10],
+  zy=instruction[9],
+  ny=instruction[8],
+  f=instruction[7],
+  no=instruction[6],
+
+  zr=zrOut,
+  ng=ngOut,
+
+  out=alu.output,
+  out=outM
+);
+
+
+
+    And(a=instruction[15], b=instruction[3], out=writeM);
+
+    // Program counter.
+    // Emits next instruction.
+    // Reset: = 0
+    // 000 nojump: ++
+    // 111 goto: = A
+    // 010 100 etc conditional goto: = A || ++
+
+    Not(in=ngOut, out=pos);
+    Not(in=zrOut, out=nzr);
+    And(a=instruction[15], b=instruction[0], out=jgt);
+    And(a=pos, b=nzr, out=posnzr);
+    And(a=jgt, b=posnzr, out=ld1);
+
+    And(a=instruction[15], b=instruction[1], out=jeq);
+    And(a=jeq, b=zrOut, out=ld2);
+
+    And(a=instruction[15], b=instruction[2], out=jlt);
+    And(a=jlt, b=ngOut, out=ld3);
+
+    Or(a=ld1, b=ld2, out=ldt);
+    Or(a=ld3, b=ldt, out=ld);
+
+   PC(in=a.register, load=ld, inc=true, reset=reset, out[0..14]=pc);
 }
