@@ -33,6 +33,7 @@ hdl - hardware description language
 ```
 
 
+```
 symbol
   variable
     @i
@@ -50,6 +51,15 @@ sym      instuction_number
 LOOP     4
 
 build the table:
-  init - pre defined
-  first pass - labels
-  second pass - variables
+  init - pre defined (1..15, SCR, KBD )
+  first pass - labels (instruction number)
+  second pass - variables (starting 16)
+  
+````
+
+
+```
+parsing command - (break into components)
+translating command into machine code
+
+```
