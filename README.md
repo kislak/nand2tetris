@@ -48,3 +48,8 @@ symbol table
 sym      instuction_number
 ----------
 LOOP     4
+
+build the table:
+  init - pre defined
+  first pass - labels
+  second pass - variables
