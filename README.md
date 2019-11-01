@@ -31,3 +31,20 @@ logic gate (chip)
 
 hdl - hardware description language
 ```
+
+
+symbol
+  variable
+    @i
+    M=1 // i=1
+  label (destination of goto command)
+    (LOOP)
+     ...
+    @LOOP
+  pre-defined symbols ( @R0-@R15, @SCREEN, @KBD - virtual registers, screen, keyboard)
+
+
+symbol table
+sym      instuction_number
+----------
+LOOP     4
